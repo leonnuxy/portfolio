@@ -1,22 +1,5 @@
-/* Remove or comment out :root color, background-color, font-family, line-height, font-weight if already set in base/variables.css */
-/* Remove or comment out body, a, button, h1 styles if already set in base/base.css */
-/* Only keep project-specific or demo overrides here. */
-
 html, body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
 }

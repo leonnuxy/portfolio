@@ -1,31 +1,13 @@
-/* Only typography variables and base font styles. */
-/* Remove duplicate h1, h2, ... rules if already in base.css. */
-
-/* Typography System */
+/* Typography system — serif headline, plain system sans body, system mono for labels. */
 
 :root {
-  /* Font families */
-  --font-family-base: 'Libre Baskerville', 'Baskerville', 'Montserrat', 'Segoe UI', Arial, serif;
-  --font-family-heading: 'Merriweather', 'Montserrat', 'Segoe UI', Arial, serif;
-  --font-family-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', Consolas, monospace;
-  
-  /* Font weights */
+  --font-family-heading: 'Merriweather', Georgia, 'Times New Roman', serif;
+  --font-family-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-family-mono: ui-monospace, 'SF Mono', 'Cascadia Code', Consolas, monospace;
+
   --font-weight-light: 300;
   --font-weight-regular: 400;
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
-}
-
-/* Add font size variables */
-:root {
-  --font-xs: 0.75rem;
-  --font-sm: 0.875rem;
-  --font-base: 1rem;
-  --font-md: 1.125rem;
-  --font-lg: 1.25rem;
-  --font-xl: 1.5rem;
-  --font-2xl: 1.875rem;
-  --font-3xl: 2.25rem;
-  --font-4xl: 3rem;
 }

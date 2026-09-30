@@ -1,230 +1,148 @@
-import React, { useRef, useEffect, useCallback } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { experience } from '../content/profile';
+import Reveal from './Reveal';
 
-const experienceData = [
-  {
-    title: "Software Engineer(Cloud & Data)",
-    period: "2022-2024",
-    employer: "The Association of Professional Engineers and Geoscientists of Alberta (APEGA)",
-    location: "Calgary",
-    logo: `${import.meta.env.BASE_URL}logos/apega_logo.svg.png`,
-    logoStyle: { transform: "scale(0.85)" },
-    points: [
-      "Migrated 10TB+ data to Azure Synapse, improving queries by 25%.",
-      "Built scalable C#/.NET apps and responsive React UIs.",
-      "Optimized REST APIs and Azure services, reducing costs.",
-      "Tools: React, TypeScript, C#, Azure, Agile."
-    ]
-  },
-  {
-    title: "Web/Software Developer",
-    period: "2021-2022",
-    employer: "Spartan Controls",
-    location: "Calgary",
-    logo: `${import.meta.env.BASE_URL}logos/spartan_logo.png`,
-    points: [
-      "Developed React/JS frontends, raising accessibility by 20%.",
-      "Maintained .NET and SQL services, 99.9% uptime.",
-      "Automated AWS deployments, reducing deploy time.",
-      "Tools: React, JS, .NET, SQL, AWS."
-    ]
-  },
-  {
-    title: "Cloud Data Analyst",
-    period: "2020-2021",
-    employer: "Parkland Fuel Corporation",
-    location: "Calgary",
-    logo: `${import.meta.env.BASE_URL}logos/parkland_logo.png`,
-    points: [
-      "Analyzed data with Python/SQL for insights.",
-      "Built ML models, increasing ROI by 22%.",
-      "Created Tableau/Power BI dashboards.",
-      "Tools: Python, SQL, Tableau, Power BI."
-    ]
-  },
-  {
-    title: "IT Analyst Intern",
-    period: "2019-2020",
-    employer: "Alberta Health Services",
-    location: "Calgary",
-    logo: `${import.meta.env.BASE_URL}logos/ahs_logo.png`,
-    logoStyle: { transform: "scale(0.85)" },
-    points: [
-      "Resolved 100+ tech issues, boosting satisfaction.",
-      "Streamlined IT workflows in ServiceNow.",
-      "Wrote technical documentation.",
-      "Tools: ServiceNow, Troubleshooting."
-    ]
-  }
-];
+const StreamingSentence = ({ as = 'p', children, className = '' }) => {
+  const ref = useRef(null);
+  const [streaming, setStreaming] = useState(false);
 
-const ExperienceSection = () => {
-  const carouselRef = useRef(null);
-  const scrollInterval = useRef(null);
-  const pauseTimeout = useRef(null);
-  const scrollDirection = useRef(1); // 1 for right, -1 for left
+  useEffect(() => {
+    const node = ref.current;
+    const touchInput = window.matchMedia('(hover: none), (pointer: coarse)');
+    if (!node || !touchInput.matches) return undefined;
 
-  // Repeat the cards in the desired order for infinite scroll:
-  // This is achieved by repeating the experienceData array.
-  const cards = [
-    ...experienceData,
-    ...experienceData,
-    ...experienceData // Repeat as needed for smooth infinite scroll
-  ];
+    const observer = new IntersectionObserver(([entry]) => {
+      setStreaming(entry.isIntersecting);
+    }, {
+      threshold: 0.35,
+      rootMargin: '-8% 0px -18%',
+    });
 
-  // Function to start auto-scrolling
-  const startAutoScroll = useCallback(() => {
-    if (scrollInterval.current) return;
-    scrollInterval.current = setInterval(() => {
-      const container = carouselRef.current;
-      if (!container) return;
-      
-      // Scroll by the direction factor (positive or negative)
-      container.scrollLeft += (0.5 * scrollDirection.current);
-      
-      const cardWidth = 260 + 32; // Card width + gap
-      
-      // If reached right end, reverse direction to left
-      if (container.scrollLeft >= (cardWidth * (cards.length - 5))) {
-        scrollDirection.current = -1;
-      }
-      
-      // If reached left end, reverse direction to right
-      if (container.scrollLeft <= cardWidth) {
-        scrollDirection.current = 1;
-      }
-    }, 20);
-  }, [cards.length]);
-
-  // Function to stop auto-scrolling
-  const stopAutoScroll = useCallback(() => {
-    if (scrollInterval.current) {
-      clearInterval(scrollInterval.current);
-      scrollInterval.current = null;
-    }
+    observer.observe(node);
+    return () => observer.disconnect();
   }, []);
 
-  // On mount, start auto-scroll and set initial scroll position
-  useEffect(() => {
-    const container = carouselRef.current;
-    if (container) {
-      // Jump to first real card (skip ghost at start)
-      const cardWidth = 260 + 32;
-      container.scrollLeft = cardWidth;
-    }
-    startAutoScroll();
-    return () => {
-      stopAutoScroll();
-      if (pauseTimeout.current) clearTimeout(pauseTimeout.current);
-    };
-  }, [startAutoScroll, stopAutoScroll]);
-
-  // Update scroll handler for manual scrolling
-  const handleScroll = () => {
-    const container = carouselRef.current;
-    if (!container) return;
-    const cardWidth = 260 + 32;
-    
-    // Update direction based on manual scroll position
-    if (container.scrollLeft >= (cardWidth * (cards.length - 5))) {
-      scrollDirection.current = -1;
-    } else if (container.scrollLeft <= cardWidth) {
-      scrollDirection.current = 1;
-    }
-  };
-
-  // Handle card click: pause, then resume after 3s
-  const handleCardClick = () => {
-    stopAutoScroll();
-    if (pauseTimeout.current) clearTimeout(pauseTimeout.current);
-    pauseTimeout.current = setTimeout(() => {
-      startAutoScroll();
-    }, 3000);
-  };
-
-  return (
-    <section id="experience" className="experience-section">
-      <h2 className="experience-header">EXPERIENCE</h2>
-      <div className="experience-carousel-wrapper">
-        {/* Left gradient */}
-        <div className="carousel-fade carousel-fade-left" />
-        {/* Right gradient */}
-        <div className="carousel-fade carousel-fade-right" />
-        <div
-          className="experience-carousel-container"
-          ref={carouselRef}
-          onScroll={handleScroll}
-        >
-          {cards.map((exp, idx) => {
-            // Extract tools from last point if it starts with "Tools:"
-            let points = exp.points;
-            let tools = [];
-            if (points.length > 0 && typeof points[points.length - 1] === "string" && points[points.length - 1].startsWith("Tools:")) {
-              const toolsStr = points[points.length - 1].replace("Tools:", "").trim();
-              tools = toolsStr.split(",").map(t => t.trim());
-              points = points.slice(0, points.length - 1);
-            }
-            return (
-              <div
-                className="experience-card"
-                key={idx}
-                onClick={handleCardClick}
-                tabIndex={0}
-              >
-                <div className="experience-logo-container">
-                  <img
-                    src={exp.logo}
-                    alt={`${exp.employer} logo`}
-                    className="experience-logo"
-                    style={exp.logoStyle}
-                  />
-                </div>
-                {tools.length > 0 && (
-                  <div className="experience-tools">
-                    {tools.map((tool, i) => (
-                      <span
-                        key={i}
-                        className="experience-tool-pill"
-                      >
-                        {tool}
-                      </span>
-                    ))}
-                  </div>
-                )}
-                <div className="experience-row">
-                  <h3 className="experience-title">{exp.title}</h3>
-                </div>
-                {/* Company, location, and date vertically spaced, but location/date on same line */}
-                <div className="experience-company-location-date">
-                  <span className="experience-employer">{exp.employer}</span>
-                  <div className="experience-location-date-row">
-                    <span className="experience-location">
-                      <i className="fas fa-map-marker-alt"></i> {exp.location}
-                    </span>
-                    <span className="experience-period">
-                      {exp.period}
-                    </span>
-                  </div>
-                </div>
-                <div className="experience-points">
-                  <ul
-                    className="experience-description"
-                  >
-                    {points.slice(0, 4).map((point, i) => (
-                      <li key={i}>{point}</li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </section>
+  return React.createElement(
+    as,
+    {
+      ref,
+      className: `experience-summary${streaming ? ' is-streaming' : ''} ${className}`.trim(),
+      'aria-label': children,
+    },
+    children.split(' ').map((word, index) => (
+      <span
+        aria-hidden="true"
+        className="experience-word"
+        key={`${word}-${index}`}
+        style={{ '--word-index': index }}
+      >
+        {word}{' '}
+      </span>
+    )),
   );
 };
 
-ExperienceSection.propTypes = {
-  // Add any props if you decide to make this component accept props
+const DAY_IN_MS = 24 * 60 * 60 * 1000;
+
+const getDurationInDays = (start, end) => {
+  const startTime = Date.parse(`${start}T00:00:00Z`);
+  const endTime = end ? Date.parse(`${end}T00:00:00Z`) : Date.now();
+  return Math.max(1, Math.floor((endTime - startTime) / DAY_IN_MS));
 };
+
+const DurationCounter = ({ start, end, period }) => {
+  const ref = useRef(null);
+  const duration = getDurationInDays(start, end);
+  const [count, setCount] = useState(0);
+  const [revealed, setRevealed] = useState(false);
+
+  useEffect(() => {
+    const node = ref.current;
+    if (!node) return undefined;
+
+    let frame;
+    const observer = new IntersectionObserver(([entry]) => {
+      cancelAnimationFrame(frame);
+
+      if (!entry.isIntersecting) {
+        setRevealed(false);
+        setCount(0);
+        return;
+      }
+
+      setRevealed(true);
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        setCount(duration);
+        return;
+      }
+
+      const startedAt = performance.now();
+      const animate = (now) => {
+        const progress = Math.min((now - startedAt) / 1400, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        setCount(Math.round(duration * eased));
+        if (progress < 1) frame = requestAnimationFrame(animate);
+      };
+
+      frame = requestAnimationFrame(animate);
+    }, { threshold: 0.35 });
+
+    observer.observe(node);
+    return () => {
+      observer.disconnect();
+      cancelAnimationFrame(frame);
+    };
+  }, [duration]);
+
+  return (
+    <span
+      ref={ref}
+      className={`experience-duration${revealed ? ' is-visible' : ''}`}
+      aria-label={`${duration} days, ${period}`}
+      title={period}
+    >
+      <strong aria-hidden="true">{count.toLocaleString()}</strong>
+      <span aria-hidden="true">days</span>
+    </span>
+  );
+};
+
+const ExperienceSection = () => (
+  <section id="experience" className="experience-section">
+    <div className="section-intro">
+      <div>
+        <span className="section-index">03 / Experience</span>
+        <Reveal as="h2" className="section-header">Where I have worked.</Reveal>
+      </div>
+      <Reveal as="p" className="section-deck">
+        I have spent most of my career close to messy data, operational software or both.
+      </Reveal>
+    </div>
+    <div className="experience-list">
+      {experience.map((role) => (
+        <Reveal
+          as="article"
+          className="experience-row"
+          key={`${role.title}-${role.period}`}
+          tabIndex="0"
+        >
+          <div className="experience-meta">
+            <DurationCounter start={role.start} end={role.end} period={role.period} />
+            {role.employer && <span className="experience-employer">{role.employer}</span>}
+          </div>
+          <div className="experience-content">
+            <h3 className="experience-title">{role.title}</h3>
+            <StreamingSentence>{role.summary}</StreamingSentence>
+            <div className="experience-tools">
+              {role.tools.map((tool) => (
+                <span className="tool-pill" key={tool}>{tool}</span>
+              ))}
+            </div>
+          </div>
+        </Reveal>
+      ))}
+    </div>
+  </section>
+);
 
 export default ExperienceSection;

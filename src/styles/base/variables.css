@@ -1,75 +1,98 @@
-/* Base variables - consolidated with colors.css */
+/* Design tokens — warm paper theme. Same var names as before so component CSS
+   doesn't need touching; only the values changed. Dark mode overrides both via
+   system preference and via body.dark-mode (manual toggle wins, see body.light-mode
+   / body.dark-mode below and in style.css). */
 
 :root {
-  /* Light mode defaults (will be overridden in dark mode) */
-  
-  /* Background colors */
-  --background-light: #ffffff;
-  --background-mid: #f5f5f5;
-  --background-dark: #1a1a1a;
-  --background-card: #ffffff;
-  
-  /* Text colors - dark for light mode to ensure contrast */
-  --text-color: #333333; /* Dark gray text for light mode */
-  --text-color-muted: rgba(51, 51, 51, 0.7); /* Semi-transparent dark text */
-  --text-secondary: #666666;
-  
-  /* Brand colors - dark enough to be visible on light bg */
-  --primary-color: #1a2233; /* Dark navy */
-  --secondary-color: #217a4b; /* Green with good contrast */
-  
-  /* Other colors */
-  --accent-color: #2980b9; /* Darker blue for better contrast */
-  --neon-blue: #0077cc; /* Darker blue for light mode */
-  
-  /* Effects and borders */
-  --border-color: #e0e0e0;
-  --shadow-color: rgba(0, 0, 0, 0.08);
-  --highlight-color: rgba(255, 255, 255, 0.2);
-  
-  /* Button styles */
-  --button-bg: #f5f5f5;
-  --button-color: #333333; /* Dark text for contrast on light buttons */
-  --button-border: #e0e0e0;
-  
-  /* Effects */
-  --neon-glow: 0 0 10px rgba(0, 119, 204, 0.5), 0 0 20px rgba(0, 119, 204, 0.3);
-  --transition: all 0.3s ease;
+  /* Backgrounds */
+  --background-light: #f6f1e7;
+  --background-mid: #efe7d8;
+  --background-dark: #1b1712;
+  --background-card: #fbf7ef;
+
+  /* Text */
+  --text-color: #23201b;
+  --text-color-muted: rgba(35, 32, 27, 0.65);
+  --text-secondary: #5b5347;
+
+  /* Brand / accent — one burnt-orange accent, everywhere */
+  --primary-color: #23201b;
+  --secondary-color: #b54b25;
+  --accent-color: #b54b25;
+  --neon-blue: #b54b25; /* alias kept so any leftover reference stays on-theme */
+
+  /* Borders & shadow */
+  --border-color: #e3d9c4;
+  --shadow-color: rgba(35, 32, 27, 0.1);
+  --highlight-color: rgba(255, 255, 255, 0.4);
+
+  /* Buttons */
+  --button-bg: #fbf7ef;
+  --button-color: #23201b;
+  --button-border: #e3d9c4;
+
+  --neon-glow: none;
+  --transition: all 0.2s ease;
 }
 
-/* Dark mode overrides */
 @media (prefers-color-scheme: dark) {
   :root {
-    /* Background colors for dark mode */
-    --background-light: #050911;
-    --background-mid: #0a1022;
-    --background-dark: #000000;
-    --background-card: rgba(10, 16, 35, 0.85);
-    
-    /* Text colors - light for dark mode */
-    --text-color: #ffffff;
-    --text-color-muted: rgba(255, 255, 255, 0.6);
-    --text-secondary: #c0c8d8;
-    
-    /* Brand colors - light enough for dark mode */
-    --primary-color: #ffffff;
-    --secondary-color: #50e3c2;
-    
-    /* Other colors */
-    --accent-color: #90caf9;
-    --neon-blue: #00c3ff;
-    
-    /* Effects and borders */
-    --border-color: #2a3654;
-    --shadow-color: rgba(0, 0, 0, 0.65);
-    --highlight-color: rgba(255, 255, 255, 0.05);
-    
-    /* Button styles */
-    --button-bg: rgba(10, 16, 35, 0.85);
-    --button-color: #ffffff;
-    --button-border: #2a3654;
-    
-    /* Effects */
-    --neon-glow: 0 0 10px rgba(0, 195, 255, 0.5), 0 0 20px rgba(0, 195, 255, 0.3);
+    --background-light: #1b1712;
+    --background-mid: #241f18;
+    --background-dark: #100d0a;
+    --background-card: #241f18;
+
+    --text-color: #f1e9da;
+    --text-color-muted: rgba(241, 233, 218, 0.65);
+    --text-secondary: #b8ac97;
+
+    --primary-color: #f1e9da;
+    --secondary-color: #e2794a;
+    --accent-color: #e2794a;
+    --neon-blue: #e2794a;
+
+    --border-color: #3a332a;
+    --shadow-color: rgba(0, 0, 0, 0.4);
+    --highlight-color: rgba(255, 255, 255, 0.06);
+
+    --button-bg: #241f18;
+    --button-color: #f1e9da;
+    --button-border: #3a332a;
   }
+}
+
+body.light-mode {
+  --background-light: #f6f1e7;
+  --background-mid: #efe7d8;
+  --background-dark: #1b1712;
+  --background-card: #fbf7ef;
+  --text-color: #23201b;
+  --text-color-muted: rgba(35, 32, 27, 0.65);
+  --text-secondary: #5b5347;
+  --primary-color: #23201b;
+  --secondary-color: #b54b25;
+  --accent-color: #b54b25;
+  --border-color: #e3d9c4;
+  --shadow-color: rgba(35, 32, 27, 0.1);
+  --button-bg: #fbf7ef;
+  --button-color: #23201b;
+  --button-border: #e3d9c4;
+}
+
+body.dark-mode {
+  --background-light: #1b1712;
+  --background-mid: #241f18;
+  --background-dark: #100d0a;
+  --background-card: #241f18;
+  --text-color: #f1e9da;
+  --text-color-muted: rgba(241, 233, 218, 0.65);
+  --text-secondary: #b8ac97;
+  --primary-color: #f1e9da;
+  --secondary-color: #e2794a;
+  --accent-color: #e2794a;
+  --border-color: #3a332a;
+  --shadow-color: rgba(0, 0, 0, 0.4);
+  --button-bg: #241f18;
+  --button-color: #f1e9da;
+  --button-border: #3a332a;
 }

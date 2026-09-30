@@ -1,23 +1,27 @@
 import React from 'react';
+import { BriefcaseBusiness, Code2, NotebookPen } from 'lucide-react';
+import { person } from '../content/profile';
 
 const Header = () => (
   <header className="main-header">
-    <div className="header-title">Noel Ugwoke</div>
-    <div className="header-bar">
-      <a href="https://www.linkedin.com/in/noelugwoke/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-        <i className="fab fa-linkedin"></i>
-      </a>
-      {/* Add rel="noopener noreferrer" to all external links */}
-      <a href="https://github.com/leonnuxy" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-        <i className="fab fa-github"></i>
-      </a>
-      <a href="https://leonnuxy.github.io/blog/" aria-label="Blog">
-        <i className="fas fa-blog"></i>
-      </a>
-      <a href="#projects" aria-label="Projects">
-        <i className="fas fa-folder-open"></i>
-      </a>
-    </div>
+    <a href="#about" className="header-title">
+      <span className="header-monogram" aria-hidden="true">NU</span>
+      <span className="header-name">
+        Noel <span>Ugwoke</span>
+      </span>
+    </a>
+    <nav className="header-bar" aria-label="Primary">
+      <div className="header-actions">
+        <a className="header-availability" href="#contact">
+          <span className="availability-light" aria-hidden="true" />
+          Let&apos;s talk
+        </a>
+        <span className="header-divider" aria-hidden="true" />
+        <a href={person.links.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><BriefcaseBusiness size={16} aria-hidden="true" /></a>
+        <a href={person.links.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub"><Code2 size={16} aria-hidden="true" /></a>
+        <a href={person.links.blog} aria-label="Blog"><NotebookPen size={16} aria-hidden="true" /></a>
+      </div>
+    </nav>
   </header>
 );
 

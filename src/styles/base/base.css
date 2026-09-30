@@ -9,9 +9,12 @@ html, body {
   width: 100%;
   min-height: 100vh;
   font-family: var(--font-family-base);
-  background: var(--background-light);
   color: var(--text-color);
   transition: var(--transition);
+}
+
+body {
+  background: var(--background-light);
 }
 
 a {

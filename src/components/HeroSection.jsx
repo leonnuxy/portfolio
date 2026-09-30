@@ -1,53 +1,61 @@
 import React from 'react';
+import { MapPin } from 'lucide-react';
+import { person, now, bio, heroSignals, heroProof } from '../content/profile';
 
-const interests = [
-  "Tennis",
-  "Soccer",
-  "Chess",
-  "Gaming & Development",
-  "Health & Fitness",
-  ""
-];
+const HeroSection = () => (
+  <section className="hero-section" id="about">
+    <div className="hero-grid">
+      <div className="hero-copy">
+        <div className="hero-kicker-row">
+          <p className="hero-kicker">{person.kicker}</p>
+          <span className="hero-location">
+            <MapPin size={13} aria-hidden="true" />
+            {person.location}
+          </span>
+        </div>
 
-const HeroSection = () => {
-  return (
-    <section className="hero-section" id="about">
-      <div className="hero-image-container">
-        <img 
-          src={`${import.meta.env.BASE_URL}IMG_1102.jpg`} 
-          alt="Noel Ugwoke" 
-          className="hero-image" 
-        />
-      </div>
-      <h1 className="hero-title">Software/Cloud Developer & Machine Learning Enthusiast</h1>
-      <div className="about-me-content">
-        <p>
-          Experienced software developer with a background in computer science and a proven track record of solving complex problems. Proficient in full-stack development, data analysis, and building scalable cloud solutions. Expertise spans the entire software development lifecycle, from analysis and design to testing and deployment, utilizing modern technologies and Agile methodologies to drive efficiency and enhance user experiences.
-        </p>
-        <div className="interests-section">
-          <span className="interests-title">Interests</span>
-          <div className="interests-marquee">
-            <div className="interests-marquee-inner">
-              {interests.map((interest, idx) => (
-                <span className="interest-item" key={idx}>
-                  {interest}
-                  {idx < interests.length - 1 && <span className="interest-separator"> • </span>}
-                </span>
-              ))}
-              {/* Duplicate for seamless loop */}
-              {interests.map((interest, idx) => (
-                <span className="interest-item" key={`dup-${idx}`}>
-                  {interest}
-                  {idx < interests.length - 1 && <span className="interest-separator"> • </span>}
-                </span>
-              ))}
+        <h1 className="hero-title">{person.tagline}</h1>
+        <p className="hero-bio">{bio}</p>
+
+        <div className="hero-actions">
+          <a href="#case-studies" className="btn btn-primary">Read case studies</a>
+          <a href="#contact" className="btn btn-ghost">Get in touch</a>
+        </div>
+
+        <dl className="hero-signals">
+          {heroSignals.map((signal) => (
+            <div className="hero-signal" key={signal.label}>
+              <dt>{signal.label}</dt>
+              <dd>{signal.value}</dd>
             </div>
-          </div>
+          ))}
+        </dl>
+
+        <div className="hero-proof-rail" aria-label="Selected results from shipped work">
+          {heroProof.map((item) => (
+            <div className="hero-proof-item" key={item.label}>
+              <span className="hero-proof-value">{item.value}</span>
+              <span className="hero-proof-label">{item.label}</span>
+            </div>
+          ))}
         </div>
       </div>
-    </section>
-  );
-};
 
-// Export separately instead of inline with definition
+      <aside className="hero-rail" aria-label="Current focus">
+        <div className="hero-panel hero-panel-now">
+          <div className="hero-panel-header">
+            <span className="hero-panel-label">
+              <span className="now-pulse" aria-hidden="true" />
+              {now.status}
+            </span>
+            <span className="hero-panel-chip">In progress</span>
+          </div>
+          <p className="hero-panel-text">{now.text}</p>
+        </div>
+
+      </aside>
+    </div>
+  </section>
+);
+
 export default HeroSection;
