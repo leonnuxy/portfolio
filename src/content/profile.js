@@ -10,7 +10,6 @@ export const person = {
     linkedin: "https://www.linkedin.com/in/noelugwoke/",
     github: "https://github.com/leonnuxy",
     blog: "https://leonnuxy.github.io/blog/",
-    resume: `${import.meta.env.BASE_URL}resume.pdf`,
   },
 };
 
