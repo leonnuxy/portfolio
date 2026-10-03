@@ -1,0 +1,3 @@
+# Blog lives in the leonnuxy/blog repo on GitHub Pages
+/blog https://leonnuxy.github.io/blog/ 301
+/blog/* https://leonnuxy.github.io/blog/:splat 301
