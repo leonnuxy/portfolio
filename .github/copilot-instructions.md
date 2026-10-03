@@ -7,7 +7,7 @@
 - Create the production bundle in `dist/` with `npm run build`.
 - Preview the production bundle locally with `npm run preview`.
 - Lint all JavaScript and JSX with `npm run lint`. To lint one file, run `npx eslint src/components/ComponentName.jsx`.
-- Deploy manually with `npm run deploy`; pushes to `main` also build and deploy `dist/` through `.github/workflows/deploy.yml`.
+- Hosting is Cloudflare Pages (project `portfolio`, domain noelugwoke.com): pushes to `main` build with `npm run build` and deploy `dist/` automatically. There is no manual deploy script.
 - There is currently no test runner or test suite, so there is no single-test command.
 
 ## Architecture

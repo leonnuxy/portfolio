@@ -1,6 +1,6 @@
 # Portfolio
 
-This is my personal portfolio website hosted on GitHub Pages. You can visit it at [https://leonnuxy.github.io](https://leonnuxy.github.io).
+This is my personal portfolio website hosted on Cloudflare Pages. You can visit it at [https://noelugwoke.com](https://noelugwoke.com).
 
 # Personal Portfolio
 
@@ -26,10 +26,10 @@ This is a professional portfolio website built with React and Vite, showcasing m
 
 ```bash
 # Clone the repository
-git clone https://github.com/leonnuxy/leonnuxy.github.io.git
+git clone https://github.com/leonnuxy/portfolio.git
 
 # Navigate to the project directory
-cd leonnuxy.github.io
+cd portfolio
 
 # Install dependencies
 npm install
@@ -46,8 +46,6 @@ npm run build
 
 ## Deployment
 
-This site can be easily deployed to GitHub Pages or any static site hosting service.
+The site is hosted on Cloudflare Pages. Pushing to `main` builds (`npm run build`) and deploys `dist/` automatically.
 
-```bash
-npm run deploy
-```
+The contact form posts to Formspree; its endpoint is set in `.env.production` as `VITE_FORM_ENDPOINT`.
